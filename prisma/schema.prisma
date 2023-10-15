@@ -10,49 +10,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Level{
-  idLevel Int @id @default(autoincrement())
+model Level {
+  idLevel   Int    @id @default(autoincrement())
   nameLevel String
-  message String
-  user User[]
+  message   String
+  user      User[]
 }
-model Status{
-  idStatus Int @id @default(autoincrement())
-  nameStatus String
-  user User[]
-  room Room[]
-  customer Customer[]
+
+model Status {
+  idStatus    Int           @id @default(autoincrement())
+  nameStatus  String
+  user        User[]
+  room        Room[]
+  customer    Customer[]
   transaction Transaction[]
 }
 
-model User{
-  idUser Int @id @default(autoincrement())
-  nameUser String
-  emailUser String
+model User {
+  idUser       Int    @id @default(autoincrement())
+  nameUser     String
+  emailUser    String
   passwordUser String
-  tlpUser String
-  addressUser String
-  userLevel   Level @relation(fields: [levelUser], references: [idLevel])
-  levelUser Int 
+  tlpUser      String
+  addressUser  String
+  userLevel    Level  @relation(fields: [levelUser], references: [idLevel])
+  levelUser    Int
   userStatus   Status @relation(fields: [statusUser], references: [idStatus])
-  statusUser Int 
-  fotoUser String
+  statusUser   Int
+  fotoUser     String
 }
 
 model Customer {
-  idCustomer Int @id @default(autoincrement())
-  nameCustomer String
-  nikCustomer String
-  emailCustomer String
-  tlpnCustomer String
+  idCustomer      Int           @id @default(autoincrement())
+  nameCustomer    String
+  nikCustomer     String
+  emailCustomer   String
+  tlpnCustomer    String
   addressCustomer String
-  fotoCustomer String
+  fotoCustomer    String
   paswordCustomer String
-  statusId Status @relation(fields: [statusCustomer], references: [idStatus])
-  statusCustomer Int
-  transaction Transaction[] 
+  statusId        Status        @relation(fields: [statusCustomer], references: [idStatus])
+  statusCustomer  Int
+  transaction     Transaction[]
 }
-
 
 model Floor {
   idFloor   Int    @id @default(autoincrement())
@@ -70,41 +70,39 @@ model Category {
 }
 
 model Room {
-  idRoom             Int       @id @default(autoincrement())
-  categoryId         Int
-  floorId            Int
-  nameRoom           String
-  statusId           Int
-  descRoom           String
-  Status             Status?   @relation(fields: [statusIdStatus], references: [idStatus])
-  statusIdStatus     Int?
-  Floor              Floor?    @relation(fields: [floorIdFloor], references: [idFloor])
-  floorIdFloor       Int?
-  Category           Category? @relation(fields: [categoryIdCategory], references: [idCategory])
-  categoryIdCategory Int?
+  idRoom      Int           @id @default(autoincrement())
+  categoryId  Int
+  floorId     Int
+  nameRoom    String
+  numberRoom  Int
+  statusId    Int
+  descRoom    String
+  Status      Status?       @relation(fields: [statusId], references: [idStatus])
+  Floor       Floor?        @relation(fields: [floorId], references: [idFloor])
+  Category    Category?     @relation(fields: [categoryId], references: [idCategory])
   transaction Transaction[]
 }
 
 model Transaction {
-  idTransaction Int @id @default(autoincrement())
-  customer Customer @relation(fields: [customerId], references: [idCustomer])
-  customerId Int
-  roomId Int
-  room Room @relation(fields: [roomId], references: [idRoom])
+  idTransaction     Int      @id @default(autoincrement())
+  customer          Customer @relation(fields: [customerId], references: [idCustomer])
+  customerId        Int
+  roomId            Int
+  room              Room     @relation(fields: [roomId], references: [idRoom])
   statusTransaction Int
-  status Status @relation(fields: [statusTransaction], references: [idStatus])
-  checkIn DateTime
-  checkOut DateTime
-  day Int
-  people Int
-  booking DateTime
-  statusPayment Int 
-  payment Payment @relation(fields: [statusPayment], references: [idPayment])
-  totalPayment Int
+  status            Status   @relation(fields: [statusTransaction], references: [idStatus])
+  checkIn           DateTime
+  checkOut          DateTime
+  day               Int
+  people            Int
+  booking           DateTime
+  statusPayment     Int
+  payment           Payment  @relation(fields: [statusPayment], references: [idPayment])
+  totalPayment      Int
 }
 
 model Payment {
-  idPayment Int @id @default(autoincrement())
+  idPayment     Int           @id @default(autoincrement())
   paymentStatus String
-  transaction Transaction[] 
+  transaction   Transaction[]
 }
