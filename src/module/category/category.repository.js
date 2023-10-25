@@ -13,7 +13,7 @@ const addCategory = async (req, res) => {
         price: parseFloat(price),
       },
     });
-    return res.status(200).send({ message: "add category..." });
+    return res.status(200).send({ message: "add category success..." });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
