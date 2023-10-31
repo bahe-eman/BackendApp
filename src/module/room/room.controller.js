@@ -1,6 +1,13 @@
 const express = require("express");
 
-const { allUsers, createRoom, deleteRoomById, roomById, editRoomById } = require("./room.service");
+const {
+  allUsers,
+  createRoom,
+  deleteRoomById,
+  roomById,
+  editRoomById,
+} = require("./room.service");
+
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -12,7 +19,6 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newData = req.body;
-
 
     const room = await createRoom(newData);
 
@@ -35,7 +41,7 @@ router.put("/:id", async (req, res) => {
       newData.nameRoom &&
       newData.numberRoom &&
       newData.statusId &&
-      newData.descRoom 
+      newData.descRoom
     )
   ) {
     return res.status(400).send("some fields are missings");
@@ -70,4 +76,3 @@ router.get("/:id", async (req, res) => {
 });
 
 module.exports = router;
-

@@ -77,9 +77,9 @@ model Room {
   numberRoom  Int
   statusId    Int
   descRoom    String
-  Status      Status?       @relation(fields: [statusId], references: [idStatus])
-  Floor       Floor?        @relation(fields: [floorId], references: [idFloor])
-  Category    Category?     @relation(fields: [categoryId], references: [idCategory])
+  Status      Status        @relation(fields: [statusId], references: [idStatus])
+  Floor       Floor         @relation(fields: [floorId], references: [idFloor])
+  Category    Category      @relation(fields: [categoryId], references: [idCategory])
   transaction Transaction[]
 }
 
@@ -95,7 +95,7 @@ model Transaction {
   checkOut          DateTime
   day               Int
   people            Int
-  booking           DateTime
+  booking           DateTime @default(now())
   statusPayment     Int
   payment           Payment  @relation(fields: [statusPayment], references: [idPayment])
   totalPayment      Int

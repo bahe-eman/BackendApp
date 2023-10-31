@@ -29,8 +29,9 @@ const findRoom = async (id) => {
 
 const checkRoom = async (newData) => {
   const rooms = await prisma.room.findFirst({
+
     where: {      
-      numberRoom: newData.numberRoom,
+      numberRoom: parseInt(newData.numberRoom),
     },
   });
   return rooms;
@@ -39,11 +40,11 @@ const checkRoom = async (newData) => {
 const insertRoom = async (newData) => {
   const room = await prisma.room.create({
     data: {
-      categoryId: newData.categoryId,
-      floorId: newData.floorId,
+      categoryId: parseInt(newData.categoryId),
+      floorId: parseInt(newData.floorId),
       nameRoom: newData.nameRoom,
-      numberRoom: newData.numberRoom,
-      statusId: newData.statusId,
+      numberRoom: parseInt(newData.numberRoom),
+      statusId: parseInt(newData.statusId),
       descRoom: newData.descRoom,
     },
   });
@@ -56,11 +57,11 @@ const updateRoom = async (id, newData) => {
       idRoom: id,
     },
     data: {
-      categoryId: newData.categoryId,
-      floorId: newData.floorId,
+      categoryId: parseInt(newData.categoryId),
+      floorId: parseInt(newData.floorId),
       nameRoom: newData.nameRoom,
-      numberRoom: newData.numberRoom,
-      statusId: newData.statusId,
+      numberRoom: parseInt(newData.numberRoom),
+      statusId: parseInt(newData.statusId),
       descRoom: newData.descRoom,
     },
   });
