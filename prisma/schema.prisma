@@ -91,11 +91,11 @@ model Transaction {
   room              Room     @relation(fields: [roomId], references: [idRoom])
   statusTransaction Int
   status            Status   @relation(fields: [statusTransaction], references: [idStatus])
-  checkIn           DateTime
-  checkOut          DateTime
+  checkIn           DateTime @db.Date()
+  checkOut          DateTime @db.Date()
   day               Int
   people            Int
-  booking           DateTime @default(now())
+  booking           DateTime @db.Date()
   statusPayment     Int
   payment           Payment  @relation(fields: [statusPayment], references: [idPayment])
   totalPayment      Int

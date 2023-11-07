@@ -37,7 +37,7 @@ const checkUser = async (newData) => {
   return users;
 };
 
-const insertUser = async (newData) => {
+const insertUser = async (newData, image) => {
   const hashedPwd = crypt.hashSync(newData.passwordUser, 8);
   const user = await prisma.user.create({
     data: {
@@ -46,15 +46,15 @@ const insertUser = async (newData) => {
       passwordUser: hashedPwd,
       tlpUser: newData.tlpUser,
       addressUser: newData.addressUser,
-      levelUser: newData.levelUser,
-      statusUser: newData.statusUser,
-      fotoUser: newData.fotoUser,
+      levelUser: parseInt(newData.levelUser),
+      statusUser: parseInt(newData.statusUser),
+      fotoUser: image,
     },
   });
   return user;
 };
 
-const updateUser = async (id, newData) => {
+const updateUser = async (id, newData, image) => {
   const hashedUpPass = crypt.hashSync(newData.passwordUser, 8);
   const product = await prisma.user.update({
     where: {
@@ -66,9 +66,9 @@ const updateUser = async (id, newData) => {
       passwordUser: hashedUpPass,
       tlpUser: newData.tlpUser,
       addressUser: newData.addressUser,
-      levelUser: newData.levelUser,
-      statusUser: newData.statusUser,
-      fotoUser: newData.fotoUser,
+      levelUser: parseInt(newData.levelUser),
+      statusUser: parseInt(newData.statusUser),
+      fotoUser: image,
     },
   });
   return product;
