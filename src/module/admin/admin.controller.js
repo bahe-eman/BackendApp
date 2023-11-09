@@ -21,8 +21,11 @@ router.post("/", async (req, res) => {
     if (!strongPassword) {
       return res.status(400).send({ message: "password not strong" });
     }
-
-    const user = await createUser(newData);
+    if (!req.file) {
+      return res.status(422).send({ message: "image must be uploaded" });
+    }
+    const image = req.file.path;
+    const user = await createUser(newData, image);
 
     res.send({
       data: user,
@@ -43,8 +46,7 @@ router.put("/:id", async (req, res) => {
       newData.tlpUser &&
       newData.addressUser &&
       newData.levelUser &&
-      newData.statusUser &&
-      newData.fotoUser
+      newData.statusUser
     )
   ) {
     return res.status(400).send("some fields are missings");
@@ -53,7 +55,11 @@ router.put("/:id", async (req, res) => {
   if (!strongPass) {
     return res.status(400).send({ message: "password not strong" });
   }
-  const user = await editUserById(parseInt(userId), newData);
+  if (!req.file) {
+    return res.status(422).send({ message: "image must be uploaded" });
+  }
+  const image = req.file.path;
+  const user = await editUserById(parseInt(userId), newData, image);
 
   res.send({
     data: user,
@@ -68,7 +74,11 @@ router.patch("/:id", async (req, res) => {
     if (!strongPassUpdate) {
       return res.status(400).send({ message: "password not strong" });
     }
-    const user = await editUserById(parseInt(userId), newData);
+    if (!req.file) {
+      return res.status(422).send({ message: "image must be uploaded" });
+    }
+    const image = req.file.path;
+    const user = await editUserById(parseInt(userId), newData, image);
 
     res.send({
       data: user,
