@@ -21,6 +21,7 @@ const insertUser = async (newData, cust) => {
       people: parseInt(newData.people),
       statusPayment: parseInt(newData.statusPayment),
       totalPayment: parseInt(newData.totalPayment),
+      booking: new Date(),
     },
   });
   return user;
