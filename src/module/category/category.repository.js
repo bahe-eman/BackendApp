@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const { room } = require("../../db");
-const prisma = new PrismaClient();
+const prisma = require("../../db/index");
 
 const addCategory = async (req, res) => {
   try {
@@ -26,7 +24,7 @@ const allCategory = async (req, res) => {
         include: {
           room: true,
         },
-      })
+      }),
     );
   } catch (error) {
     return res.status(500).send({ message: error.message });
@@ -40,7 +38,7 @@ const categoryId = async (req, res) => {
       await prisma.category.findUnique({
         where: { idCategory: id },
         include: { room: true },
-      })
+      }),
     );
   } catch (error) {
     return res.status(500).send({ message: error.message });
@@ -54,7 +52,7 @@ const categorySearch = async (req, res) => {
         where: {
           nameCategory: req.params.name,
         },
-      })
+      }),
     );
   } catch (error) {
     return res.status(500).send({ message: error.message });
