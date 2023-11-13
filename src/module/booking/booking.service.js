@@ -108,7 +108,7 @@ const createUser = async (newData) => {
     // email admin operational
     from: "trianahilmi7@gmail.com",
     // email customer
-    to: "zikranasnawi69@gmail.com",
+    to: "rokcblack@gmail.com",
 
     //body email :
     subject: "your hotel booking successfuly verifited ",
