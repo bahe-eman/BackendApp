@@ -2,13 +2,15 @@ const prisma = require("../../db/index");
 
 const addCategory = async (req, res) => {
   try {
-    const { nameCategory, descCategory, facilityCategory, price } = req.body;
+    const { nameCategory, descCategory, facilityCategory, price, image } =
+      req.body;
     await prisma.category.create({
       data: {
         nameCategory: nameCategory.toLowerCase(),
         descCategory: descCategory,
         facilityCategory: facilityCategory,
         price: parseFloat(price),
+        image: image,
       },
     });
     return res.status(200).send({ message: "add category success..." });
@@ -24,7 +26,7 @@ const allCategory = async (req, res) => {
         include: {
           room: true,
         },
-      }),
+      })
     );
   } catch (error) {
     return res.status(500).send({ message: error.message });
@@ -38,7 +40,7 @@ const categoryId = async (req, res) => {
       await prisma.category.findUnique({
         where: { idCategory: id },
         include: { room: true },
-      }),
+      })
     );
   } catch (error) {
     return res.status(500).send({ message: error.message });
@@ -52,7 +54,7 @@ const categorySearch = async (req, res) => {
         where: {
           nameCategory: req.params.name,
         },
-      }),
+      })
     );
   } catch (error) {
     return res.status(500).send({ message: error.message });
