@@ -2,14 +2,14 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const cors = require("cors");
-const router = require("./routes/router");
+const router = require("./src/routes/router");
 const path = require("path");
 const PORT = process.env.PORT;
 app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 const multer = require("multer");
 const fileStorage = multer.diskStorage({
@@ -32,7 +32,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("fotoUser")
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("fotoUser"),
 );
 app.use("/bookingAssets", express.static(__dirname + "/asset/"));
 app.use("/uploads", express.static("uploads"));
