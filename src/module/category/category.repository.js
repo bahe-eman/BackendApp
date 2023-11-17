@@ -74,7 +74,8 @@ const categoryDelete = async (req, res) => {
 
 const categoryUpdate = async (req, res) => {
   try {
-    const { nameCategory, descCategory, facilityCategory, price } = req.body;
+    const { nameCategory, descCategory, facilityCategory, price, image } =
+      req.body;
     await prisma.category.update({
       where: { idCategory: parseInt(req.params.id) },
       data: {
@@ -82,6 +83,7 @@ const categoryUpdate = async (req, res) => {
         descCategory: descCategory,
         facilityCategory: facilityCategory,
         price: parseFloat(price),
+        image: image,
       },
     });
     return res.status(200).send({ message: "updated category..." });
