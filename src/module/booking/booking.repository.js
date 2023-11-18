@@ -15,12 +15,13 @@ const insertUser = async (newData, cust) => {
       customerId: cust,
       roomId: parseInt(newData.roomId),
       statusTransaction: 1,
-      checkIn: newData.checkIn,
-      checkOut: newData.checkOut,
+      checkIn: new Date(newData.checkIn),
+      checkOut: new Date(newData.checkOut),
       day: parseInt(newData.day),
       people: parseInt(newData.people),
       statusPayment: parseInt(newData.statusPayment),
       totalPayment: parseInt(newData.totalPayment),
+      booking: new Date(),
     },
   });
   return user;
