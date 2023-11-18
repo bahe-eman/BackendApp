@@ -29,8 +29,7 @@ const findRoom = async (id) => {
 
 const checkRoom = async (newData) => {
   const rooms = await prisma.room.findFirst({
-
-    where: {      
+    where: {
       numberRoom: parseInt(newData.numberRoom),
     },
   });

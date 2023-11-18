@@ -7,7 +7,7 @@ const floorController = require("../module/floor/floor.controller");
 const bookingController = require("../module/booking/booking.controller");
 const loginController = require("../module/login/login.controller");
 const reportController = require("../module/report/report.controller");
-const checkInController = require("../module/checkin/checkin.controller");
+const checkController = require("../module/check/check.controller");
 const { ValidateLogin } = require("../middlewares/validator");
 const customerController = require("../module/customer/customer.controller");
 
@@ -19,6 +19,6 @@ router.use("/floor", floorController);
 router.use("/booking", bookingController);
 router.use("/reports", reportController);
 router.use("/customer", customerController);
-router.use("/checkin", checkInController);
+router.use("/check", checkController);
 
 module.exports = router;

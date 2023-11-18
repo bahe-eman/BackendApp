@@ -66,6 +66,7 @@ model Category {
   descCategory     String
   facilityCategory String
   price            Float
+  image            String
   room             Room[]
 }
 
