@@ -1,7 +1,7 @@
 const prisma = require("../../db/index");
 
 const findAllUser = async () => {
-  const users = await prisma.room.findMany();
+  const users = await prisma.floor.findMany();
   return users;
 };
 

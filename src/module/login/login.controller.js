@@ -1,23 +1,25 @@
 const express = require("express");
-const { loginUser, generateAuthToken } = require("./login.service");
 const router = express.Router();
+const JWT = require("jsonwebtoken");
 require("dotenv").config();
 
 router.post("/", async (req, res) => {
   try {
-    const { emailUser, passwordUser } = req.body;
+    const { userData } = req;
+    delete userData.passwordUser;
 
-    const { user, token } = await loginUser(emailUser, passwordUser);
+    const token = JWT.sign({ id: userData.idUser }, process.env.JWT_SECRET, {
+      expiresIn: 3600,
+    });
 
     return res.status(200).send({
-      message: "login sukses",
+      message: "login success",
       token: token,
-      user
+      userData,
     });
   } catch (err) {
     res.status(401).send({ error: err.message });
   }
 });
-
 
 module.exports = router;
