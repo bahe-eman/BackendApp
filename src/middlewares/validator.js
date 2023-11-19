@@ -50,11 +50,11 @@ const validateCategory = async (req, res, next) => {
       return res.status(401).send({ message: "some field is missing...!" });
     }
 
-    const isTrue = validator.isFloat(price);
-    if (!isTrue)
-      return res
-        .status(401)
-        .send({ message: "price must be number, execution failed!" });
+    // const isTrue = validator.isFloat(price);
+    // if (!isTrue)
+    //   return res
+    //     .status(401)
+    //     .send({ message: "price must be number, execution failed!" });
 
     next();
   } catch (error) {
