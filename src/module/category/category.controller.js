@@ -11,7 +11,6 @@ const {
   categoryUpdate,
 } = require("./category.repository");
 
-// const multer = require("multer");
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "src/asset/category-images");

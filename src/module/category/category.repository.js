@@ -3,15 +3,14 @@ const fs = require("fs");
 
 const addCategory = async (req, res) => {
   try {
-    const { nameCategory, descCategory, facilityCategory, price, image2 } =
-      req.body;
+    const { nameCategory, descCategory, facilityCategory, price } = req.body;
     await prisma.category.create({
       data: {
         nameCategory: nameCategory.toLowerCase(),
         descCategory: descCategory,
         facilityCategory: facilityCategory,
         price: parseFloat(price),
-        image: req.file.filename,
+        image: req.file.path,
       },
     });
     return res.status(200).send({ message: "add category success..." });
@@ -68,7 +67,7 @@ const categoryDelete = async (req, res) => {
     const selectedFile = await prisma.category.findUnique({
       where: { idCategory },
     });
-    fs.unlinkSync(`src/asset/category-images/${selectedFile.image}`);
+    fs.unlinkSync(`${selectedFile.image}`);
     await prisma.category.delete({
       where: { idCategory },
     });
