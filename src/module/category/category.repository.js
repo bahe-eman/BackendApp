@@ -1,8 +1,9 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
+const fs = require("fs");
 
 const addCategory = async (req, res) => {
   try {
-    const { nameCategory, descCategory, facilityCategory, price, image } =
+    const { nameCategory, descCategory, facilityCategory, price, image2 } =
       req.body;
     await prisma.category.create({
       data: {
@@ -10,7 +11,7 @@ const addCategory = async (req, res) => {
         descCategory: descCategory,
         facilityCategory: facilityCategory,
         price: parseFloat(price),
-        image: image,
+        image: req.file.filename,
       },
     });
     return res.status(200).send({ message: "add category success..." });
@@ -63,8 +64,13 @@ const categorySearch = async (req, res) => {
 
 const categoryDelete = async (req, res) => {
   try {
+    const idCategory = parseInt(req.params.id);
+    const selectedFile = await prisma.category.findUnique({
+      where: { idCategory },
+    });
+    fs.unlinkSync(`src/asset/category-images/${selectedFile.image}`);
     await prisma.category.delete({
-      where: { idCategory: parseInt(req.params.id) },
+      where: { idCategory },
     });
     return res.status(200).send({ message: "delete success..." });
   } catch (error) {
