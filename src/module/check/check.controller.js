@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 const express = require("express");
 const router = express.Router();
 const { getAll, getOne, getOneAndUpdate } = require("./check.repository");

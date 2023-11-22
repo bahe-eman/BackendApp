@@ -38,15 +38,8 @@ const ValidateLogin = async (req, res, next) => {
 
 const validateCategory = async (req, res, next) => {
   try {
-    const { nameCategory, descCategory, facilityCategory, price, image } =
-      req.body;
-    if (
-      !nameCategory ||
-      !descCategory ||
-      !facilityCategory ||
-      !price ||
-      !image
-    ) {
+    const { nameCategory, descCategory, facilityCategory, price } = req.body;
+    if (!nameCategory || !descCategory || !facilityCategory || !price) {
       return res.status(401).send({ message: "some field is missing...!" });
     }
 

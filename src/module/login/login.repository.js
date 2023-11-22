@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 
 const checkUser = async (newData) => {
   const users = await prisma.user.findFirst({

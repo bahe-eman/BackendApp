@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 
 const getAll = async (status) => {
   return await prisma.transaction.findMany({
