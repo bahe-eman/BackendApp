@@ -1,5 +1,5 @@
 const { prisma } = require("../../db/index");
-const fs = require("fs");
+const { unlinkSync } = require("fs");
 
 const addCategory = async (req, res) => {
   try {
@@ -67,7 +67,11 @@ const categoryDelete = async (req, res) => {
     const selectedFile = await prisma.category.findUnique({
       where: { idCategory },
     });
-    fs.unlinkSync(`${selectedFile.image}`);
+    try {
+      unlinkSync(`${selectedFile.image}`);
+    } catch (error) {
+      console.log("image not found...");
+    }
     await prisma.category.delete({
       where: { idCategory },
     });

@@ -1,9 +1,7 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 const express = require("express");
 const router = express.Router();
 const { getAll, getOne, getOneAndUpdate } = require("./check.repository");
-
-
 
 router.get("/in", async (req, res) => {
   try {
@@ -56,9 +54,9 @@ router.get("/in/:id", async (req, res) => {
       });
     }
   }
-})
+});
 
-router.get('/out', async (req, res) => {
+router.get("/out", async (req, res) => {
   try {
     const checkout = await getAll(4);
     res.send({
@@ -80,9 +78,9 @@ router.get('/out', async (req, res) => {
       });
     }
   }
-})
+});
 
-router.get('/out/:id', async (req, res) => {
+router.get("/out/:id", async (req, res) => {
   try {
     const checkout = await getOne(req.params.id);
     if (!checkout) {
@@ -109,7 +107,7 @@ router.get('/out/:id', async (req, res) => {
       });
     }
   }
-})
+});
 
 router.patch("/intoout/id", async (req, res) => {
   try {
@@ -118,8 +116,7 @@ router.patch("/intoout/id", async (req, res) => {
       data: checkin,
       message: "update checkin success",
     });
-  }
-  catch (err) {
+  } catch (err) {
     // Memeriksa apakah kesalahan terkait validasi data
     if (err.name === "ValidationError") {
       res.status(400).send({
@@ -134,7 +131,7 @@ router.patch("/intoout/id", async (req, res) => {
       });
     }
   }
-})
+});
 router.patch("/outtofinish/id", async (req, res) => {
   try {
     const checkin = await getOneAndUpdate(req.params.id, 4, 5);
@@ -142,8 +139,7 @@ router.patch("/outtofinish/id", async (req, res) => {
       data: checkin,
       message: "update checkin success",
     });
-  }
-  catch (err) {
+  } catch (err) {
     // Memeriksa apakah kesalahan terkait validasi data
     if (err.name === "ValidationError") {
       res.status(400).send({
@@ -158,9 +154,6 @@ router.patch("/outtofinish/id", async (req, res) => {
       });
     }
   }
-})
-
-
-
+});
 
 module.exports = router;

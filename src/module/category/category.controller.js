@@ -1,5 +1,6 @@
 const express = require("express");
 const { multer } = require("../../db/index");
+const { mkdir } = require("fs");
 const { validateCategory } = require("../../middlewares/validator");
 const { verifyJWT } = require("../../middlewares/verifyJWT");
 const {
@@ -10,6 +11,10 @@ const {
   categoryDelete,
   categoryUpdate,
 } = require("./category.repository");
+
+mkdir("src/asset/category-images", { recursive: true }, (err) => {
+  if (err) throw err;
+});
 
 const images = multer.diskStorage({
   destination: (req, file, cb) => {

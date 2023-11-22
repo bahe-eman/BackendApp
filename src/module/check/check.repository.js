@@ -1,4 +1,4 @@
-const prisma = require('../../db/index')
+const { prisma } = require("../../db/index");
 
 const getAll = async (status) => {
   return await prisma.transaction.findMany({
@@ -8,32 +8,31 @@ const getAll = async (status) => {
           idCustomer: true,
           nikCustomer: true,
           nameCustomer: true,
-          statusId: true
-        }
+          statusId: true,
+        },
       },
       room: {
         select: {
           floorId: true,
           nameRoom: true,
-        }
+        },
       },
       checkIn: true,
       checkOut: true,
       status: {
         select: {
           idStatus: true,
-          nameStatus: true
-        }
-      }
+          nameStatus: true,
+        },
+      },
     },
     where: {
       status: {
-        idStatus: status
-      }
-    }
-  })
-   
-}
+        idStatus: status,
+      },
+    },
+  });
+};
 const getOne = async (status, id) => {
   return await prisma.transaction.findUnique({
     select: {
@@ -66,28 +65,27 @@ const getOne = async (status, id) => {
         statusId: status,
       },
     },
-  })
-}
+  });
+};
 
 const getOneAndUpdate = async (id, status, newData) => {
-  const data = await getOne(status, id)
+  const data = await getOne(status, id);
   if (!data) {
-    return null
+    return null;
   }
   const updatedData = await prisma.customer.update({
     where: {
-      idTransaction: id
+      idTransaction: id,
     },
     data: {
-      statusId: newData
-    }
-  })
-  return updatedData
-}
-
+      statusId: newData,
+    },
+  });
+  return updatedData;
+};
 
 module.exports = {
   getAll,
   getOne,
-  getOneAndUpdate
-}
+  getOneAndUpdate,
+};
