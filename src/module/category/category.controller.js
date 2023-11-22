@@ -12,13 +12,14 @@ const {
   categoryUpdate,
 } = require("./category.repository");
 
-mkdir("src/asset/category-images", { recursive: true }, (err) => {
+mkdir("assets/category-images", { recursive: true }, (err) => {
   if (err) throw err;
 });
 
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "src/asset/category-images");
+    cb(null, "assets/category-images");
+    // cb(null, "src/asset/category-images");
   },
   filename: (req, file, cb) => {
     cb(null, new Date().getTime() + "-" + file.originalname);

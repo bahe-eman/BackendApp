@@ -35,10 +35,7 @@ const fileFilter = (req, file, cb) => {
 //   multer({ storage: fileStorage, fileFilter: fileFilter }).single("fotoUser")
 // );
 app.use("/bookingAssets", express.static(__dirname + "/asset/"));
-app.use(
-  "/src/asset/category-images",
-  express.static("src/asset/category-images")
-);
+app.use("/assets/category-images", express.static("assets/category-images"));
 app.use("/uploads", express.static("uploads"));
 app.get("/api", (req, res) => {
   res.send("Hello");
