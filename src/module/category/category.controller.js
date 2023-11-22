@@ -29,10 +29,10 @@ const uploading = multer({ storage: images });
 
 const router = express.Router();
 router.get("/", allCategory);
-router.post("/add", uploading.single("image"), addCategory);
+router.post("/add", uploading.any("image", "image2"), addCategory);
 router.get("/:id", categoryId);
 router.get("/search/:name", categorySearch);
 router.delete("/delete/:id", categoryDelete);
-router.put("/update/:id", validateCategory, categoryUpdate);
+router.put("/update/:id", uploading.any("image", "image2"), categoryUpdate);
 
 module.exports = router;
