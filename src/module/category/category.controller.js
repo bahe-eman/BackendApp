@@ -1,4 +1,3 @@
-// testing
 const express = require("express");
 const { multer } = require("../../db/index");
 const { mkdir } = require("fs");
@@ -26,7 +25,6 @@ const images = multer.diskStorage({
 });
 
 const uploading = multer({ storage: images });
-console.log(uploading);
 
 const router = express.Router();
 router.get("/", allCategory);
