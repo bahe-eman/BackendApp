@@ -66,6 +66,8 @@ model Category {
   descCategory     String
   facilityCategory String
   price            Float
+  image            String
+  image2           String?
   room             Room[]
 }
 
@@ -77,9 +79,9 @@ model Room {
   numberRoom  Int
   statusId    Int
   descRoom    String
-  Status      Status?       @relation(fields: [statusId], references: [idStatus])
-  Floor       Floor?        @relation(fields: [floorId], references: [idFloor])
-  Category    Category?     @relation(fields: [categoryId], references: [idCategory])
+  Status      Status        @relation(fields: [statusId], references: [idStatus])
+  Floor       Floor         @relation(fields: [floorId], references: [idFloor])
+  Category    Category      @relation(fields: [categoryId], references: [idCategory])
   transaction Transaction[]
 }
 
@@ -91,11 +93,11 @@ model Transaction {
   room              Room     @relation(fields: [roomId], references: [idRoom])
   statusTransaction Int
   status            Status   @relation(fields: [statusTransaction], references: [idStatus])
-  checkIn           DateTime
-  checkOut          DateTime
+  checkIn           DateTime @db.Date()
+  checkOut          DateTime @db.Date()
   day               Int
   people            Int
-  booking           DateTime
+  booking           DateTime @db.Date()
   statusPayment     Int
   payment           Payment  @relation(fields: [statusPayment], references: [idPayment])
   totalPayment      Int
