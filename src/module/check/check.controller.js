@@ -109,9 +109,9 @@ router.get("/out/:id", async (req, res) => {
   }
 });
 
-router.patch("/intoout/id", async (req, res) => {
+router.patch("/intoout/:id", async (req, res) => {
   try {
-    const checkin = await getOneAndUpdate(req.params.id, req.body);
+    const checkin = await getOneAndUpdate(parseInt(req.params.id), 3, 4);
     res.send({
       data: checkin,
       message: "update checkin success",
@@ -132,9 +132,9 @@ router.patch("/intoout/id", async (req, res) => {
     }
   }
 });
-router.patch("/outtofinish/id", async (req, res) => {
+router.patch("/outtofinish/:id", async (req, res) => {
   try {
-    const checkin = await getOneAndUpdate(req.params.id, 4, 5);
+    const checkin = await getOneAndUpdate(parseInt(req.params.id), 4, 5);
     res.send({
       data: checkin,
       message: "update checkin success",

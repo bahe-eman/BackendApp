@@ -1,8 +1,8 @@
+// testing
 const express = require("express");
 const { multer } = require("../../db/index");
 const { mkdir } = require("fs");
 const { validateCategory } = require("../../middlewares/validator");
-const { verifyJWT } = require("../../middlewares/verifyJWT");
 const {
   addCategory,
   allCategory,
@@ -19,7 +19,6 @@ mkdir("assets/category-images", { recursive: true }, (err) => {
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "assets/category-images");
-    // cb(null, "src/asset/category-images");
   },
   filename: (req, file, cb) => {
     cb(null, new Date().getTime() + "-" + file.originalname);
@@ -27,6 +26,7 @@ const images = multer.diskStorage({
 });
 
 const uploading = multer({ storage: images });
+console.log(uploading);
 
 const router = express.Router();
 router.get("/", allCategory);
