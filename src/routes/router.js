@@ -9,16 +9,17 @@ const loginController = require("../module/login/login.controller");
 const reportController = require("../module/report/report.controller");
 const checkController = require("../module/check/check.controller");
 const { ValidateLogin } = require("../middlewares/validator");
+const { verifyJWT } = require("../middlewares/verifyJWT");
 const customerController = require("../module/customer/customer.controller");
 
 router.use("/login", ValidateLogin, loginController);
-router.use("/users", userController);
-router.use("/rooms", roomController);
+router.use("/users", verifyJWT, userController);
+router.use("/rooms", verifyJWT, roomController);
 router.use("/category", categoryController);
-router.use("/floor", floorController);
-router.use("/booking", bookingController);
-router.use("/reports", reportController);
-router.use("/customer", customerController);
-router.use("/check", checkController);
+router.use("/floor", verifyJWT, floorController);
+router.use("/booking", verifyJWT, bookingController);
+router.use("/reports", verifyJWT, reportController);
+router.use("/customer", verifyJWT, customerController);
+router.use("/check", verifyJWT, checkController);
 
 module.exports = router;

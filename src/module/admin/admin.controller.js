@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 
     res.send({
       data: user,
-      message: "create Level success",
+      message: "create Users success",
     });
   } catch (err) {
     res.status(400).send(err.message);

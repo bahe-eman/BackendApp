@@ -3,6 +3,7 @@ const { prisma } = require("../../db/index");
 const getAll = async (status) => {
   return await prisma.transaction.findMany({
     select: {
+      idTransaction: true,
       customer: {
         select: {
           idCustomer: true,
@@ -60,10 +61,8 @@ const getOne = async (status, id) => {
       payment: true,
     },
     where: {
-      customer: {
-        idCustomer: id,
-        statusId: status,
-      },
+      idTransaction: id,
+      statusTransaction: status,
     },
   });
 };
@@ -73,12 +72,12 @@ const getOneAndUpdate = async (id, status, newData) => {
   if (!data) {
     return null;
   }
-  const updatedData = await prisma.customer.update({
+  const updatedData = await prisma.transaction.update({
     where: {
       idTransaction: id,
     },
     data: {
-      statusId: newData,
+      statusTransaction: newData,
     },
   });
   return updatedData;
