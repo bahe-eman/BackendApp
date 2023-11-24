@@ -3,18 +3,21 @@ const { unlinkSync } = require("fs");
 
 const addCategory = async (req, res) => {
   try {
-    const { nameCategory, descCategory, facilityCategory, price } = req.body;
-    let image2;
-    if (req.files[1]) {
-      image2 = req.files[1].path;
-    } else image2 = null;
+    const {
+      nameCategory,
+      descCategory,
+      facilityCategory,
+      price,
+      image,
+      image2,
+    } = req.body;
     await prisma.category.create({
       data: {
         nameCategory: nameCategory.toLowerCase(),
         descCategory: descCategory,
         facilityCategory: facilityCategory,
         price: parseFloat(price),
-        image: req.files[0].path,
+        image: image,
         image2: image2,
       },
     });
@@ -69,15 +72,6 @@ const categorySearch = async (req, res) => {
 const categoryDelete = async (req, res) => {
   try {
     const idCategory = parseInt(req.params.id);
-    const selectedFile = await prisma.category.findUnique({
-      where: { idCategory },
-    });
-    try {
-      unlinkSync(`${selectedFile.image}`);
-      unlinkSync(`${selectedFile.image2}`);
-    } catch (error) {
-      console.log("image not found...");
-    }
     await prisma.category.delete({
       where: { idCategory },
     });
@@ -90,22 +84,14 @@ const categoryDelete = async (req, res) => {
 const categoryUpdate = async (req, res) => {
   try {
     const idCategory = parseInt(req.params.id);
-    const { nameCategory, descCategory, facilityCategory, price } = req.body;
-    const selectedFile = await prisma.category.findUnique({
-      where: { idCategory },
-    });
-
-    try {
-      unlinkSync(`${selectedFile.image}`);
-      unlinkSync(`${selectedFile.image2}`);
-    } catch (error) {
-      console.log("image not found...");
-    }
-
-    let image2;
-    if (req.files[1]) {
-      image2 = req.files[1].path;
-    } else image2 = null;
+    const {
+      nameCategory,
+      descCategory,
+      facilityCategory,
+      price,
+      image,
+      image2,
+    } = req.body;
     await prisma.category.update({
       where: { idCategory: idCategory },
       data: {
@@ -113,7 +99,7 @@ const categoryUpdate = async (req, res) => {
         descCategory: descCategory,
         facilityCategory: facilityCategory,
         price: parseFloat(price),
-        image: req.files[0].path,
+        image: image,
         image2: image2,
       },
     });
