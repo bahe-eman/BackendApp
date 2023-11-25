@@ -1,7 +1,6 @@
 const express = require("express");
 const { multer } = require("../../db/index");
 const { mkdir } = require("fs");
-const { validateCategory } = require("../../middlewares/validator");
 const {
   addCategory,
   allCategory,

@@ -18,7 +18,7 @@ const addCategory = async (req, res) => {
         image2: image2,
       },
     });
-    return res.status(200).send({ message: "add category success..." });
+    return res.status(200).send({ success: "add category success..." });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -26,13 +26,13 @@ const addCategory = async (req, res) => {
 
 const allCategory = async (req, res) => {
   try {
-    return res.status(200).send(
-      await prisma.category.findMany({
+    return res.status(200).send({
+      categories: await prisma.category.findMany({
         include: {
           room: true,
         },
-      })
-    );
+      }),
+    });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -41,12 +41,12 @@ const allCategory = async (req, res) => {
 const categoryId = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    return res.status(200).send(
-      await prisma.category.findUnique({
+    return res.status(200).send({
+      category: await prisma.category.findUnique({
         where: { idCategory: id },
         include: { room: true },
-      })
-    );
+      }),
+    });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -54,13 +54,13 @@ const categoryId = async (req, res) => {
 
 const categorySearch = async (req, res) => {
   try {
-    return res.status(200).send(
-      await prisma.category.findMany({
+    return res.status(200).send({
+      categories: await prisma.category.findMany({
         where: {
           nameCategory: req.params.name,
         },
-      })
-    );
+      }),
+    });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -81,7 +81,7 @@ const categoryDelete = async (req, res) => {
     await prisma.category.delete({
       where: { idCategory },
     });
-    return res.status(200).send({ message: "delete success..." });
+    return res.status(200).send({ success: "delete success..." });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -117,7 +117,7 @@ const categoryUpdate = async (req, res) => {
         image2: image2,
       },
     });
-    return res.status(200).send({ message: "updated category..." });
+    return res.status(200).send({ success: "updated category..." });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
