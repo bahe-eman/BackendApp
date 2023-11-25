@@ -25,7 +25,6 @@ const images = multer.diskStorage({
 });
 
 const uploading = multer({ storage: images });
-console.log(uploading);
 
 const router = express.Router();
 router.get("/", allCategory);
