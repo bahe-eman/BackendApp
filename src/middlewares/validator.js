@@ -36,23 +36,4 @@ const ValidateLogin = async (req, res, next) => {
   }
 };
 
-const validateCategory = async (req, res, next) => {
-  try {
-    const { nameCategory, descCategory, facilityCategory, price } = req.body;
-    if (!nameCategory || !descCategory || !facilityCategory || !price) {
-      return res.status(401).send({ message: "some field is missing...!" });
-    }
-
-    // const isTrue = validator.isFloat(price);
-    // if (!isTrue)
-    //   return res
-    //     .status(401)
-    //     .send({ message: "price must be number, execution failed!" });
-
-    next();
-  } catch (error) {
-    return res.status(500).send({ message: error.message });
-  }
-};
-
-module.exports = { ValidateLogin, validateCategory };
+module.exports = { ValidateLogin };
