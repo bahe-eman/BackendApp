@@ -67,6 +67,7 @@ model Category {
   facilityCategory String
   price            Float
   image            String
+  image2           String?
   room             Room[]
 }
 

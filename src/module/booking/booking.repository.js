@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 
 const checkUser = async (newData) => {
   const users = await prisma.customer.findFirst({
@@ -14,7 +14,7 @@ const insertUser = async (newData, cust) => {
     data: {
       customerId: cust,
       roomId: parseInt(newData.roomId),
-      statusTransaction: 1,
+      statusTransaction: 3,
       checkIn: new Date(newData.checkIn),
       checkOut: new Date(newData.checkOut),
       day: parseInt(newData.day),
