@@ -15,7 +15,7 @@ const customerController = require("../module/customer/customer.controller");
 router.use("/login", ValidateLogin, loginController);
 router.use("/users", verifyJWT, userController);
 router.use("/rooms", verifyJWT, roomController);
-router.use("/category", verifyJWT, categoryController);
+router.use("/category", categoryController);
 router.use("/floor", verifyJWT, floorController);
 router.use("/booking", verifyJWT, bookingController);
 router.use("/reports", verifyJWT, reportController);
