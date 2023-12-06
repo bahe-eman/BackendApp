@@ -4,23 +4,8 @@ const router = express.Router();
 
 const all = async (req, res) => {
   try {
-    const customer = await prisma.customer.findMany({
-      //   select: {
-      //     idCustomer: true,
-      //     nameCustomer: true,
-      //     nikCustomer: true,
-      //     emailCustomer: true,
-      //     tlpnCustomer: true,
-      //     addressCustomer: true,
-      //     fotoCustomer: true,
-      //     paswordCustomer: true,
-      //     statusId: true,
-      //     statusCustomer: true,
-      //   },
-    });
-
     res.send({
-      customer: customer,
+      customer: await prisma.customer.findMany(),
       message: "get customer success",
     });
   } catch (err) {
@@ -70,4 +55,60 @@ const add = async (req, res) => {
   }
 };
 
-module.exports = { all, add };
+const customerId = async (req, res) => {
+  try {
+    return res.status(200).send({
+      customerId: await prisma.customer.findUnique({
+        where: { idCustomer: parseInt(req.params.id) },
+      }),
+    });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
+const del = async (req, res) => {
+  try {
+    const idCustomer = parseInt(req.params.id);
+    await prisma.customer.delete({
+      where: { idCustomer: idCustomer },
+    });
+    return res.status(200).send({ message: "deleted" });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const idCustomer = parseInt(req.params.id);
+    const {
+      nameCustomer,
+      nikCustomer,
+      emailCustomer,
+      tlpnCustomer,
+      addressCustomer,
+      fotoCustomer,
+      paswordCustomer,
+      statusCustomer,
+    } = req.body;
+    await prisma.customer.update({
+      where: { idCustomer: idCustomer },
+      data: {
+        nameCustomer: nameCustomer,
+        nikCustomer: nikCustomer,
+        emailCustomer: emailCustomer,
+        tlpnCustomer: tlpnCustomer,
+        addressCustomer: addressCustomer,
+        fotoCustomer: fotoCustomer,
+        paswordCustomer: paswordCustomer,
+        statusCustomer: parseInt(statusCustomer),
+      },
+    });
+    return res.status(200).send({ message: "updated" });
+  } catch (error) {
+    return req.status(500).send({ message: error.message });
+  }
+};
+
+module.exports = { all, add, customerId, del, update };

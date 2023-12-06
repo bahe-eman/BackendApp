@@ -13,7 +13,7 @@ const { verifyJWT } = require("../middlewares/verifyJWT");
 const customerController = require("../module/customer/customer.controller");
 
 router.use("/login", ValidateLogin, loginController);
-router.use("/users", userController);
+router.use("/users", verifyJWT, userController);
 router.use("/rooms", verifyJWT, roomController);
 router.use("/category", categoryController);
 router.use("/floor", verifyJWT, floorController);
