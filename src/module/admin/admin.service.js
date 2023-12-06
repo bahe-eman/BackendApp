@@ -28,10 +28,10 @@ const createUser = async (req, res) => {
     if (!strongPassword) {
       return res.status(400).send({ message: "password not strong" });
     }
-    if (!req.file) {
-      return res.status(422).send({ message: "image must be uploaded" });
-    }
-    const image = req.file.path;
+    // if (!req.file) {
+    //   return res.status(422).send({ message: "image must be uploaded" });
+    // }
+    const image = "image";
     const user = await checkCreateUser(newData, image);
 
     res.send({
