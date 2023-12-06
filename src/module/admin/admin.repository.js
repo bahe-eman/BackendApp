@@ -1,4 +1,4 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 const crypt = require("bcrypt");
 
 const findAllUser = async () => {

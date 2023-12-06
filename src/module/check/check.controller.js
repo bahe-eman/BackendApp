@@ -1,41 +1,13 @@
-const prisma = require('../../db/index')
-const express = require('express')
-const router = express.Router()
+const prisma = require("../../db/index");
+const express = require("express");
+const router = express.Router();
+const { getAll, getOne, getOneAndUpdate } = require("./check.repository");
 
-router.get('/in', async (req, res) => {
+
+
+router.get("/in", async (req, res) => {
   try {
-    const checkin = await prisma.transaction.findMany({
-      select: {
-        idTransaction: true,
-        customer: {
-          select: {
-            idCustomer: true,
-            nameCustomer: true,
-            addressCustomer: true,
-            tlpnCustomer: true,
-            emailCustomer: true,
-            nikCustomer: true,
-            statusCustomer: true,
-          },
-        },
-        room: {
-          select: {
-            floorId: true,
-            nameRoom: true,
-            numberRoom: true,
-          },
-        },
-        checkIn: true,
-        checkOut: true,
-        booking: true,
-        payment: true,
-      },
-      where: {
-        customer: {
-          statusCustomer: 3,
-        },
-      },
-    })
+    const checkin = await getAll(3);
     res.send({
       data: checkin,
       message: 'get checkin success',
@@ -120,9 +92,9 @@ router.get('/in/:customerid', async (req, res) => {
       })
     }
   }
-})
+});
 
-router.get('/out', async (req, res) => {
+router.get("/out", async (req, res) => {
   try {
     const checkout = await prisma.transaction.findMany({
       select: {
@@ -175,9 +147,9 @@ router.get('/out', async (req, res) => {
       })
     }
   }
-})
+});
 
-router.get('/out/:id', async (req, res) => {
+router.get("/out/:id", async (req, res) => {
   try {
     if (isNaN(+req.params.id) ) {
       return res.status(404).send({
@@ -240,23 +212,17 @@ router.get('/out/:id', async (req, res) => {
       })
     }
   }
-})
+});
 
-router.patch('/intoout/:id', async (req, res) => {
+router.patch("/intoout/id", async (req, res) => {
   try {
-    const stayCheckOut = await prisma.customer.update({
-      where: {
-        idCustomer: +req.params.id,
-      },
-      data: {
-        statusCustomer: 4,
-      },
-    })
+    const checkin = await getOneAndUpdate(req.params.id, req.body);
     res.send({
-      data: stayCheckOut,
-      message: 'update checkin success',
-    })
-  } catch (err) {
+      data: checkin,
+      message: "update checkin success",
+    });
+  }
+  catch (err) {
     // Memeriksa apakah kesalahan terkait validasi data
     if (err.name === 'ValidationError') {
       res.status(400).send({
@@ -272,21 +238,15 @@ router.patch('/intoout/:id', async (req, res) => {
     }
   }
 })
-router.patch('/outtofinish/id', async (req, res) => {
+router.patch("/outtofinish/id", async (req, res) => {
   try {
-    const finish =  await prisma.customer.update({
-      where: {
-        idCustomer: +req.params.id,
-      },
-      data: {
-        statusCustomer: 4,
-      },
-    })
+    const checkin = await getOneAndUpdate(req.params.id, 4, 5);
     res.send({
-      data: finish,
-      message: 'update checkout success',
-    })
-  } catch (err) {
+      data: checkin,
+      message: "update checkin success",
+    });
+  }
+  catch (err) {
     // Memeriksa apakah kesalahan terkait validasi data
     if (err.name === 'ValidationError') {
       res.status(400).send({
@@ -303,4 +263,7 @@ router.patch('/outtofinish/id', async (req, res) => {
   }
 })
 
-module.exports = router
+
+
+
+module.exports = router;

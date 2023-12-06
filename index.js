@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  }),
+  })
 );
 const multer = require("multer");
 const fileStorage = multer.diskStorage({
@@ -31,10 +31,12 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("fotoUser"),
-);
+// app.use(
+//   multer({ storage: fileStorage, fileFilter: fileFilter }).single("fotoUser")
+// );
 app.use("/bookingAssets", express.static(__dirname + "/asset/"));
+app.use("/assets/category-images", express.static("assets/category-images"));
+app.use("/assets/admin", express.static("assets/admin"));
 app.use("/uploads", express.static("uploads"));
 app.get("/api", (req, res) => {
   res.send("Hello");
