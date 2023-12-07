@@ -29,13 +29,11 @@ const uploading = multer({ storage: images });
 
 const paswordHashed = async (req, res, next) => {
   try {
-    console.log(req.body);
     const { paswordCustomer } = req.body;
     req.body.paswordHashed = bcrypt.hashSync(paswordCustomer, 8);
     next();
   } catch (error) {
     console.log(req.body);
-    console.log(req.body.paswordCustomer);
     return res.status(500).send({ message: "insert password..." });
   }
 };

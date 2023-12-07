@@ -17,7 +17,12 @@ const login = async (req, res) => {
 const all = async (req, res) => {
   try {
     res.send({
-      customer: await prisma.customer.findMany(),
+      customer: await prisma.customer.findMany({
+        include: {
+          statusId: true,
+          transaction: true,
+        },
+      }),
       message: "get customer success",
     });
   } catch (err) {
@@ -39,7 +44,6 @@ const all = async (req, res) => {
 
 const add = async (req, res) => {
   try {
-    console.log(req.body);
     const {
       userName,
       nameCustomer,
