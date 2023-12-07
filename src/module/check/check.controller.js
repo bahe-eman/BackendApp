@@ -8,6 +8,7 @@ router.get("/in", async (req, res) => {
   try {
     const checkIn = await prisma.transaction.findMany({
       select: {
+        idTransaction: true,
         customer: {
           select: {
             idCustomer: true,
@@ -59,6 +60,7 @@ router.get("/out", async (req, res) => {
   try {
     const checkOut = await prisma.transaction.findMany({
       select: {
+        idTransaction: true,
         customer: {
           select: {
             idCustomer: true,
