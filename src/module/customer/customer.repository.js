@@ -2,6 +2,18 @@ const { prisma } = require("../../db");
 const express = require("express");
 const router = express.Router();
 
+const login = async (req, res) => {
+  try {
+    const { userName, paswordCustomer } = req.body;
+    return res.status(200).send({
+      msgLogin: "login seccess...",
+      data: req.body.customer,
+    });
+  } catch (error) {
+    return res.status(500).send({ message: error.message });
+  }
+};
+
 const all = async (req, res) => {
   try {
     res.send({
@@ -27,25 +39,28 @@ const all = async (req, res) => {
 
 const add = async (req, res) => {
   try {
+    console.log(req.body);
     const {
+      userName,
       nameCustomer,
       nikCustomer,
       emailCustomer,
       tlpnCustomer,
       addressCustomer,
       fotoCustomer,
-      paswordCustomer,
+      paswordHashed,
       statusCustomer,
     } = req.body;
     await prisma.customer.create({
       data: {
+        userName: userName,
         nameCustomer: nameCustomer,
         nikCustomer: nikCustomer,
         emailCustomer: emailCustomer,
         tlpnCustomer: tlpnCustomer,
         addressCustomer: addressCustomer,
-        fotoCustomer: fotoCustomer,
-        paswordCustomer: paswordCustomer,
+        fotoCustomer: req.files[0].path,
+        paswordCustomer: paswordHashed,
         statusCustomer: parseInt(statusCustomer),
       },
     });
@@ -83,25 +98,27 @@ const update = async (req, res) => {
   try {
     const idCustomer = parseInt(req.params.id);
     const {
+      userName,
       nameCustomer,
       nikCustomer,
       emailCustomer,
       tlpnCustomer,
       addressCustomer,
       fotoCustomer,
-      paswordCustomer,
+      paswordHashed,
       statusCustomer,
     } = req.body;
     await prisma.customer.update({
       where: { idCustomer: idCustomer },
       data: {
+        userName: userName,
         nameCustomer: nameCustomer,
         nikCustomer: nikCustomer,
         emailCustomer: emailCustomer,
         tlpnCustomer: tlpnCustomer,
         addressCustomer: addressCustomer,
         fotoCustomer: fotoCustomer,
-        paswordCustomer: paswordCustomer,
+        paswordCustomer: paswordHashed,
         statusCustomer: parseInt(statusCustomer),
       },
     });
@@ -111,4 +128,4 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { all, add, customerId, del, update };
+module.exports = { login, all, add, customerId, del, update };
