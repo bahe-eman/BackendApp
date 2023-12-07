@@ -42,6 +42,7 @@ model User {
 
 model Customer {
   idCustomer      Int           @id @default(autoincrement())
+  userName        String        @unique
   nameCustomer    String
   nikCustomer     String
   emailCustomer   String
@@ -67,7 +68,7 @@ model Category {
   facilityCategory String
   price            Float
   image            String
-  image2           String?
+  image2           String
   room             Room[]
 }
 

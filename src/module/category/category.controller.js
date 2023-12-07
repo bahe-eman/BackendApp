@@ -1,4 +1,5 @@
 const express = require("express");
+const { verifyJWT } = require("../../middlewares/verifyJWT");
 const { multer } = require("../../db/index");
 const { mkdir } = require("fs");
 const {
@@ -27,10 +28,15 @@ const uploading = multer({ storage: images });
 
 const router = express.Router();
 router.get("/", allCategory);
-router.post("/add", uploading.any("image", "image2"), addCategory);
+router.post("/add", verifyJWT, uploading.any("image", "image2"), addCategory);
 router.get("/:id", categoryId);
 router.get("/search/:name", categorySearch);
-router.delete("/delete/:id", categoryDelete);
-router.put("/update/:id", uploading.any("image", "image2"), categoryUpdate);
+router.delete("/delete/:id", verifyJWT, categoryDelete);
+router.put(
+  "/update/:id",
+  verifyJWT,
+  uploading.any("image", "image2"),
+  categoryUpdate
+);
 
 module.exports = router;
