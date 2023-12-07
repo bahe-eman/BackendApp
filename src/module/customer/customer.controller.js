@@ -1,43 +1,72 @@
-const { prisma } = require("../../db/index");
 const express = require("express");
-const router = express.Router();
+const bcrypt = require("bcrypt");
+const { verifyJWT } = require("../../middlewares/verifyJWT");
+const { multer, prisma } = require("../../db");
+const { mkdir } = require("fs");
+const {
+  login,
+  all,
+  add,
+  customerId,
+  del,
+  update,
+} = require("./customer.repository");
 
-router.get("/", async (req, res) => {
-  try {
-    const customer = await prisma.customer.findMany({
-      select: {
-        idCustomer: true,
-        nameCustomer: true,
-        nikCustomer: true,
-        emailCustomer: true,
-        tlpnCustomer: true,
-        addressCustomer: true,
-        fotoCustomer: true,
-        paswordCustomer: true,
-        statusId: true,
-        statusCustomer: true,
-      },
-    });
-
-    res.send({
-      data: customer,
-      message: "get customer success",
-    });
-  } catch (err) {
-    // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === "ValidationError") {
-      res.status(400).send({
-        error: "Invalid data",
-        details: err.message,
-      });
-    } else {
-      // Kesalahan umum lainnya
-      res.status(500).send({
-        error: "Internal Server Error",
-        details: err.message,
-      });
-    }
-  }
+mkdir("assets/customer-photo", { recursive: true }, (err) => {
+  if (err) throw err;
 });
+
+const images = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "assets/customer-photo");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().getTime() + "-" + file.originalname);
+  },
+});
+
+const uploading = multer({ storage: images });
+
+const paswordHashed = async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const { paswordCustomer } = req.body;
+    req.body.paswordHashed = bcrypt.hashSync(paswordCustomer, 8);
+    next();
+  } catch (error) {
+    console.log(req.body);
+    console.log(req.body.paswordCustomer);
+    return res.status(500).send({ message: "insert password..." });
+  }
+};
+const validate = async (req, res, next) => {
+  try {
+    const { userName, paswordCustomer } = req.body;
+    const getCustomer = await prisma.customer.findUnique({
+      where: { userName: userName },
+    });
+    req.body.customer = getCustomer;
+    const isValid = bcrypt.compareSync(
+      paswordCustomer,
+      getCustomer.paswordCustomer
+    );
+    if (!isValid) return res.status(401).send({ message: "check password..." });
+    next();
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "check your password or username..." });
+  }
+};
+
+const router = express.Router();
+router.post("/login", validate, login);
+router.get("/", all);
+router.post("/add", uploading.any("fotoCustomer"), paswordHashed, add);
+
+router.get("/:id", customerId);
+// router.get("/search/:name", categorySearch);
+router.delete("/delete/:id", del);
+router.put("/update/:id", update);
 
 module.exports = router;
