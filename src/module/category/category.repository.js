@@ -109,6 +109,24 @@ const categoryUpdate = async (req, res) => {
       where: { idCategory },
     });
 
+    const checking = await prisma.category.findMany({
+      where: { nameCategory: nameCategory },
+    });
+
+    if (checking.length != 0) {
+      if (checking[0].idCategory != idCategory) {
+        try {
+          unlinkSync(`${req.files[0].path}`);
+          unlinkSync(`${req.files[1].path}`);
+        } catch (error) {
+          console.log("image not found...");
+        }
+        return res
+          .status(400)
+          .send({ message: "name category has been used..." });
+      }
+    }
+
     try {
       unlinkSync(`${selectedFile.image}`);
       unlinkSync(`${selectedFile.image2}`);
