@@ -1,6 +1,6 @@
 const express = require("express");
 const { verifyJWT } = require("../../middlewares/verifyJWT");
-const { multer } = require("../../db/index");
+const { multer, prisma } = require("../../db/index");
 const { mkdir } = require("fs");
 const {
   addCategory,

@@ -39,7 +39,6 @@ const all = async (req, res) => {
 
 const add = async (req, res) => {
   try {
-    console.log(req.body);
     const {
       userName,
       nameCustomer,
