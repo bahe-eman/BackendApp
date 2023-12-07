@@ -1,269 +1,293 @@
-const prisma = require("../../db/index");
+const { prisma } = require("../../db/index");
 const express = require("express");
 const router = express.Router();
-const { getAll, getOne, getOneAndUpdate } = require("./check.repository");
 
 
 
 router.get("/in", async (req, res) => {
   try {
-    const checkin = await getAll(3);
-    res.send({
-      data: checkin,
-      message: 'get checkin success',
-    })
-  } catch (err) {
-    // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === 'ValidationError') {
-      res.status(400).send({
-        error: 'Invalid data',
-        details: err.message,
-      })
-    } else {
-      // Kesalahan umum lainnya
-      res.status(500).send({
-        error: 'Internal Server Error',
-        details: err.message,
-      })
-    }
-  }
-})
-
-router.get('/in/:customerid', async (req, res) => {
-  try {
-    if (isNaN(+req.params.customerid)) {
-      return res.status(404).send({
-        message: 'data not found',
-      })
-    }
-    const checkin = await prisma.transaction.findMany({
+    const checkIn = await prisma.transaction.findMany({
       select: {
-        idTransaction: true,
         customer: {
           select: {
             idCustomer: true,
             nameCustomer: true,
-            addressCustomer: true,
-            tlpnCustomer: true,
-            emailCustomer: true,
             nikCustomer: true,
-            statusCustomer: true,
+            emailCustomer: true,
           },
         },
         room: {
           select: {
-            floorId: true,
-            nameRoom: true,
             numberRoom: true,
           },
         },
+        statusTransaction: true,
+        status: {
+          select: {
+            nameStatus: true,
+          },
+        },
         checkIn: true,
-        checkOut: true,
-        booking: true,
-        payment: true,
       },
       where: {
-        customer: {
-          idCustomer: +req.params.customerid,
-        },
-      },
-    })
-    if (!checkin) {
-      return res.status(404).send({
-        message: 'data not found',
-      })
-    }
+        statusTransaction: 3,
+      }
+    });
+
     res.send({
-      data: checkin,
-      message: 'get checkin success',
-    })
+      data: checkIn,
+      message: "get checkin success",
+    });
   } catch (err) {
     // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === 'ValidationError') {
+    if (err.name === "ValidationError") {
       res.status(400).send({
-        error: 'Invalid data',
+        error: "Invalid data",
         details: err.message,
-      })
+      });
     } else {
       // Kesalahan umum lainnya
       res.status(500).send({
-        error: 'Internal Server Error',
+        error: "Internal Server Error",
         details: err.message,
-      })
+      });
     }
   }
 });
 
 router.get("/out", async (req, res) => {
   try {
-    const checkout = await prisma.transaction.findMany({
+    const checkOut = await prisma.transaction.findMany({
       select: {
-        idTransaction: true,
-          customer: {
-              select: {
-                  idCustomer: true,
-                  nameCustomer: true,
-                  addressCustomer: true,
-                  tlpnCustomer: true,
-                  emailCustomer: true,
-                  nikCustomer: true,
-                  statusCustomer: true,
-              }
+        customer: {
+          select: {
+            idCustomer: true,
+            nameCustomer: true,
+            nikCustomer: true,
+            emailCustomer: true,
           },
-          room: {
-              select: {
-                  floorId: true,
-                  nameRoom: true,
-                  numberRoom: true,
-              }
+        },
+        room: {
+          select: {
+            numberRoom: true,
           },
-          checkIn: true,
-          checkOut: true,
-          booking: true,
-          payment: true
+        },
+        statusTransaction: true,
+        status: {
+          select: {
+            nameStatus: true,
+          },
+        },
+        checkOut: true,
       },
-      where : {
-          customer : {
-              statusCustomer : 4
-          }
-      },
-  });
+      where: {
+        statusTransaction: 4,
+      }
+    });
     res.send({
-      data: checkout,
-      message: 'get checkout success',
+      data: checkOut,
+      message: "get checkout success",
     })
   } catch (err) {
     // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === 'ValidationError') {
+    if (err.name === "ValidationError") {
       res.status(400).send({
-        error: 'Invalid data',
+        error: "Invalid data",
         details: err.message,
-      })
+      });
     } else {
       // Kesalahan umum lainnya
       res.status(500).send({
-        error: 'Internal Server Error',
+        error: "Internal Server Error",
         details: err.message,
-      })
+      });
     }
   }
-});
+})
+
 
 router.get("/out/:id", async (req, res) => {
   try {
-    if (isNaN(+req.params.id) ) {
-      return res.status(404).send({
-        message: 'data not found',
-      })
-    }
-    const checkout = await prisma.transaction.findMany({
+    const id = parseInt(req.params.id);
+    const singgleCheckOut = await prisma.transaction.findUnique({
+      where: {
+        customerId: id,
+        statusTransaction: 4
+      },
       select: {
-        idTransaction: true,
-          customer: {
-              select: {
-                  idCustomer: true,
-                  nameCustomer: true,
-                  addressCustomer: true,
-                  tlpnCustomer: true,
-                  emailCustomer: true,
-                  nikCustomer: true,
-                  statusCustomer: true,
-              }
-          },
-          room: {
-              select: {
-                  floorId: true,
-                  nameRoom: true,
-                  numberRoom: true,
-              }
-          },
-          checkIn: true,
-          checkOut: true,
-          booking: true,
-          payment: true
-      },
-      where : {
-          customer : {
-              idCustomer : +req.params.id
+        room: {
+          select: {
+            numberRoom: true,
+            nameRoom: true,
+            floorId: true,
           }
-      },
-  });
-    if (!checkout) {
-      return res.status(404).send({
-        message: 'data not found',
-      })
-    }
-    res.send({
-      data: checkout,
-      message: 'get checkout success',
+        },
+        customer: {
+          select: {
+            nikCustomer: true,
+            nameCustomer: true,
+            tlpnCustomer: true,
+            emailCustomer: true,
+            addressCustomer: true,
+          }
+        },
+        payment: {
+          select: {
+            paymentStatus: true,
+          }
+        },
+        checkIn: true,
+        checkOut: true,
+      }
     })
-  } catch (err) {
-    // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === 'ValidationError') {
+    if (!singgleCheckOut) {
+      return res.status(404).send({ message: "data not found..." })
+    }
+    res.send({
+      data: singgleCheckOut,
+      message: "get checkin success",
+    })
+  } catch (error) {
+    if (err.name === "ValidationError") {
       res.status(400).send({
-        error: 'Invalid data',
+        error: "Invalid data",
         details: err.message,
-      })
+      });
     } else {
       // Kesalahan umum lainnya
       res.status(500).send({
-        error: 'Internal Server Error',
+        error: "Internal Server Error",
         details: err.message,
-      })
+      });
     }
   }
-});
+})
 
-router.patch("/intoout/id", async (req, res) => {
+router.get("/in/:id", async (req, res) => {
   try {
-    const checkin = await getOneAndUpdate(req.params.id, req.body);
+    const id = parseInt(req.params.id);
+    const singgleCheckIn = await prisma.transaction.findUnique({
+      where: {
+        customerId: id,
+        statusTransaction: 3
+      },
+      select: {
+        room: {
+          select: {
+            numberRoom: true,
+            nameRoom: true,
+            floorId: true,
+          }
+        },
+        customer: {
+          select: {
+            nikCustomer: true,
+            nameCustomer: true,
+            tlpnCustomer: true,
+            emailCustomer: true,
+            addressCustomer: true,
+          }
+        },
+        payment: {
+          select: {
+            paymentStatus: true,
+          }
+        },
+        checkIn: true,
+        checkOut: true,
+      }
+    })
+    if (!singgleCheckIn) {
+      return res.status(404).send({ message: "data not found..." })
+    }
     res.send({
-      data: checkin,
-      message: "update checkin success",
-    });
-  }
-  catch (err) {
-    // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === 'ValidationError') {
+      data: singgleCheckIn,
+      message: "get checkin success",
+    })
+  } catch (error) {
+    if (err.name === "ValidationError") {
       res.status(400).send({
-        error: 'Invalid data',
+        error: "Invalid data",
+        details: err.message,
+      });
+    } else {
+      // Kesalahan umum lainnya
+      res.status(500).send({
+        error: "Internal Server Error",
+        details: err.message,
+      });
+    }
+  }
+})
+
+router.patch("/in/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const updateChekIn = await prisma.transaction.update({
+      where: {
+        customerId: id,
+        statusTransaction: 3
+      },
+      data: {
+        statusTransaction: 4
+      },
+    })
+    if (!updateChekIn) {
+      return res.status(404).send({ message: "data not found..." })
+    }
+    res.send({
+      data: updateChekIn,
+      message: "update checkin success",
+    })
+  } catch (error) {
+    if (err.name === "ValidationError") {
+      res.status(400).send({
+        error: "Invalid data",
+        details: err.message,
+      });
+    } else {
+      // Kesalahan umum lainnya
+      res.status(500).send({
+        error: "Internal Server Error",
+        details: err.message,
+      });
+    }
+  }
+})
+
+router.patch("/out/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const updateChekOut = await prisma.transaction.update({
+      where: {
+        customerId: id,
+        statusTransaction: 4
+      },
+      data: {
+        statusTransaction: 5
+      },
+    })
+    if (!updateChekOut) {
+      return res.status(404).send({ message: "data not found..." })
+    }
+    res.send({
+      data: updateChekOut,
+      message: "update checkout success",
+    })
+  } catch (error) {
+    if (err.name === "ValidationError") {
+      res.status(400).send({
+        error: "Invalid data",
         details: err.message,
       })
     } else {
       // Kesalahan umum lainnya
       res.status(500).send({
-        error: 'Internal Server Error',
+        error: "Internal Server Error",
         details: err.message,
       })
     }
   }
 })
-router.patch("/outtofinish/id", async (req, res) => {
-  try {
-    const checkin = await getOneAndUpdate(req.params.id, 4, 5);
-    res.send({
-      data: checkin,
-      message: "update checkin success",
-    });
-  }
-  catch (err) {
-    // Memeriksa apakah kesalahan terkait validasi data
-    if (err.name === 'ValidationError') {
-      res.status(400).send({
-        error: 'Invalid data',
-        details: err.message,
-      })
-    } else {
-      // Kesalahan umum lainnya
-      res.status(500).send({
-        error: 'Internal Server Error',
-        details: err.message,
-      })
-    }
-  }
-})
-
-
-
 
 module.exports = router;
