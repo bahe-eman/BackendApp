@@ -4,6 +4,20 @@ const { unlinkSync } = require("fs");
 const addCategory = async (req, res) => {
   try {
     const { nameCategory, descCategory, facilityCategory, price } = req.body;
+    const checking = await prisma.category.findMany({
+      where: { nameCategory: nameCategory },
+    });
+    if (checking.length > 0) {
+      try {
+        unlinkSync(`${req.files[0].path}`);
+        unlinkSync(`${req.files[1].path}`);
+      } catch (error) {
+        console.log("image not found...");
+      }
+      return res
+        .status(400)
+        .send({ message: "name category has been used..." });
+    }
     let image2;
     if (req.files[1]) {
       image2 = req.files[1].path;
@@ -94,6 +108,24 @@ const categoryUpdate = async (req, res) => {
     const selectedFile = await prisma.category.findUnique({
       where: { idCategory },
     });
+
+    const checking = await prisma.category.findMany({
+      where: { nameCategory: nameCategory },
+    });
+
+    if (checking.length != 0) {
+      if (checking[0].idCategory != idCategory) {
+        try {
+          unlinkSync(`${req.files[0].path}`);
+          unlinkSync(`${req.files[1].path}`);
+        } catch (error) {
+          console.log("image not found...");
+        }
+        return res
+          .status(400)
+          .send({ message: "name category has been used..." });
+      }
+    }
 
     try {
       unlinkSync(`${selectedFile.image}`);

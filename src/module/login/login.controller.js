@@ -9,8 +9,10 @@ router.post("/", async (req, res) => {
     delete userData.passwordUser;
 
     const token = JWT.sign({ id: userData.idUser }, process.env.JWT_SECRET, {
-      expiresIn: 600,
+      expiresIn: "24h",
     });
+
+    console.log(token);
 
     return res.status(200).send({
       message: "login success",
