@@ -16,11 +16,11 @@ const optionController = require("../module/option/option.controller");
 router.use("/login", ValidateLogin, loginController);
 router.use("/users", verifyJWT, userController);
 router.use("/rooms", verifyJWT, roomController);
-router.use("/category", verifyJWT, categoryController);
+router.use("/category", categoryController);
 router.use("/floor", verifyJWT, floorController);
 router.use("/booking", verifyJWT, bookingController);
 router.use("/reports", verifyJWT, reportController);
-router.use("/customer", verifyJWT, customerController);
+router.use("/customer", customerController);
 router.use("/check", verifyJWT, checkController);
 router.use("/option", optionController);
 
