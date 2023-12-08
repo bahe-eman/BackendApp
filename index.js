@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 const multer = require("multer");
 const fileStorage = multer.diskStorage({

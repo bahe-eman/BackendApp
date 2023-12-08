@@ -11,10 +11,6 @@ const {
   categoryUpdate,
 } = require("./category.repository");
 
-mkdir("assets/category-images", { recursive: true }, (err) => {
-  if (err) throw err;
-});
-
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "assets/category-images");

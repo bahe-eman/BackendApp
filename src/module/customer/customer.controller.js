@@ -12,10 +12,6 @@ const {
   update,
 } = require("./customer.repository");
 
-mkdir("assets/customer-photo", { recursive: true }, (err) => {
-  if (err) throw err;
-});
-
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "assets/customer-photo");
