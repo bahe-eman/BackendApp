@@ -8,6 +8,7 @@ router.get("/in", async (req, res) => {
   try {
     const checkIn = await prisma.transaction.findMany({
       select: {
+        idTransaction: true,
         customer: {
           select: {
             idCustomer: true,
@@ -59,6 +60,7 @@ router.get("/out", async (req, res) => {
   try {
     const checkOut = await prisma.transaction.findMany({
       select: {
+        idTransaction: true,
         customer: {
           select: {
             idCustomer: true,
@@ -111,7 +113,7 @@ router.get("/out/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     const singgleCheckOut = await prisma.transaction.findUnique({
       where: {
-        customerId: id,
+        idTransaction: id,
         statusTransaction: 4
       },
       select: {
@@ -147,7 +149,7 @@ router.get("/out/:id", async (req, res) => {
       data: singgleCheckOut,
       message: "get checkin success",
     })
-  } catch (error) {
+  } catch (err) {
     if (err.name === "ValidationError") {
       res.status(400).send({
         error: "Invalid data",
@@ -168,7 +170,7 @@ router.get("/in/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     const singgleCheckIn = await prisma.transaction.findUnique({
       where: {
-        customerId: id,
+        idTransaction: id,
         statusTransaction: 3
       },
       select: {
@@ -204,7 +206,7 @@ router.get("/in/:id", async (req, res) => {
       data: singgleCheckIn,
       message: "get checkin success",
     })
-  } catch (error) {
+  } catch (err) {
     if (err.name === "ValidationError") {
       res.status(400).send({
         error: "Invalid data",
@@ -225,7 +227,7 @@ router.patch("/in/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     const updateChekIn = await prisma.transaction.update({
       where: {
-        customerId: id,
+        idTransaction: id,
         statusTransaction: 3
       },
       data: {
@@ -239,7 +241,7 @@ router.patch("/in/:id", async (req, res) => {
       data: updateChekIn,
       message: "update checkin success",
     })
-  } catch (error) {
+  } catch (err) {
     if (err.name === "ValidationError") {
       res.status(400).send({
         error: "Invalid data",
@@ -260,7 +262,7 @@ router.patch("/out/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     const updateChekOut = await prisma.transaction.update({
       where: {
-        customerId: id,
+        idTransaction: id,
         statusTransaction: 4
       },
       data: {
@@ -274,7 +276,7 @@ router.patch("/out/:id", async (req, res) => {
       data: updateChekOut,
       message: "update checkout success",
     })
-  } catch (error) {
+  } catch (err) {
     if (err.name === "ValidationError") {
       res.status(400).send({
         error: "Invalid data",
