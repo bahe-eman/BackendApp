@@ -2,7 +2,7 @@ const crypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { checkUser } = require("./login.repository");
 require("dotenv").config();
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.JWT_SECRET;
 
 const generateAuthToken = (user) => {
   const payload = {
@@ -10,7 +10,7 @@ const generateAuthToken = (user) => {
     emailUser: user.emailUser,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600 });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600000 });
   return token;
 };
 
@@ -28,6 +28,7 @@ const loginUser = async (email, password) => {
   }
 
   const token = generateAuthToken(user);
+  console.log(token);
 
   return { user, token };
 };
