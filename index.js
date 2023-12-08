@@ -36,6 +36,7 @@ const fileFilter = (req, file, cb) => {
 // );
 app.use("/bookingAssets", express.static(__dirname + "/asset/"));
 app.use("/assets/category-images", express.static("assets/category-images"));
+app.use("/assets/admin", express.static("assets/admin"));
 app.use("/uploads", express.static("uploads"));
 app.get("/api", (req, res) => {
   res.send("Hello");
