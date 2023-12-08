@@ -10,7 +10,7 @@ const generateAuthToken = (user) => {
     emailUser: user.emailUser,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 3600000 });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 36000 });
   return token;
 };
 
@@ -28,7 +28,6 @@ const loginUser = async (email, password) => {
   }
 
   const token = generateAuthToken(user);
-  console.log(token);
 
   return { user, token };
 };
