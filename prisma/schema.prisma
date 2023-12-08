@@ -42,7 +42,6 @@ model User {
 
 model Customer {
   idCustomer      Int           @id @default(autoincrement())
-  userName        String        @unique
   nameCustomer    String
   nikCustomer     String
   emailCustomer   String
