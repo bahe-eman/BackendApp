@@ -6,6 +6,7 @@ const {
   checkUser,
   insertUser,
   insertCustomer,
+  updateStatusRoom,
 } = require("./booking.repository");
 
 const transporter = nodemailer.createTransport({
@@ -26,6 +27,7 @@ const createUser = async (newData) => {
     const custInsert = await insertCustomer(newData);
     var cust = custInsert.idCustomer;
   }
+  const room = await updateStatusRoom(parseInt(newData.roomId));
   const user = await insertUser(newData, cust);
   const htmlToSend = `<!DOCTYPE html>
   <html>

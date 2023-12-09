@@ -11,9 +11,9 @@ const {
   categoryUpdate,
 } = require("./category.repository");
 
-mkdir("assets/category-images", { recursive: true }, (err) => {
-  if (err) throw err;
-});
+// mkdir("assets/category-images", { recursive: true }, (err) => {
+//   if (err) throw err;
+// });
 
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -36,7 +36,7 @@ router.put(
   "/update/:id",
   verifyJWT,
   uploading.any("image", "image2"),
-  categoryUpdate
+  categoryUpdate,
 );
 
 module.exports = router;

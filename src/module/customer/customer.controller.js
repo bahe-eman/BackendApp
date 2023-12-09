@@ -12,9 +12,9 @@ const {
   update,
 } = require("./customer.repository");
 
-mkdir("assets/customer-photo", { recursive: true }, (err) => {
-  if (err) throw err;
-});
+// mkdir("assets/customer-photo", { recursive: true }, (err) => {
+//   if (err) throw err;
+// });
 
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -46,7 +46,7 @@ const validate = async (req, res, next) => {
     req.body.customer = getCustomer;
     const isValid = bcrypt.compareSync(
       paswordCustomer,
-      getCustomer.paswordCustomer
+      getCustomer.paswordCustomer,
     );
     if (!isValid) return res.status(401).send({ message: "check password..." });
     next();
