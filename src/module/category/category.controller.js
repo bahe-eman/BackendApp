@@ -11,7 +11,8 @@ const {
   categoryUpdate,
 } = require("./category.repository");
 
-const categoryImagesDir = "assets/category-images";
+const path = require("path");
+const categoryImagesDir = path.join(__dirname, "assets/category-images");
 
 // Check if the directory exists, and create it if not
 if (!fs.existsSync(categoryImagesDir)) {
