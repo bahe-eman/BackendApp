@@ -117,6 +117,9 @@ router.get("/out/:id", async (req, res) => {
         statusTransaction: 4
       },
       select: {
+        day: true,
+        totalPayment: true,
+        people: true,
         room: {
           select: {
             numberRoom: true,
@@ -174,6 +177,9 @@ router.get("/in/:id", async (req, res) => {
         statusTransaction: 3
       },
       select: {
+        day: true,
+        totalPayment: true,
+        people: true,
         room: {
           select: {
             numberRoom: true,
