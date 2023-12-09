@@ -10,7 +10,7 @@ const generateAuthToken = (user) => {
     emailUser: user.emailUser,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: 36000 });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
   return token;
 };
 
