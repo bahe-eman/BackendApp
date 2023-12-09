@@ -274,8 +274,23 @@ router.patch("/out/:id", async (req, res) => {
       data: {
         statusTransaction: 5
       },
+      select: {
+        roomId: true,
+      }
     })
     if (!updateChekOut) {
+      return res.status(404).send({ message: "data not found..." })
+    }
+    const { roomId } = updateChekOut
+    const updateRoom = await prisma.room.update({
+      where: {
+        idRoom: roomId
+      },
+      data: {
+        statusId: 6
+      }
+    })
+    if (!updateRoom) {
       return res.status(404).send({ message: "data not found..." })
     }
     res.send({
