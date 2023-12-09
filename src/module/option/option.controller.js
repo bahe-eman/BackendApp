@@ -1,9 +1,5 @@
 const express = require("express");
-const {
-  allUsers,
-  allFloor,
-  allRoom
-} = require("./option.service");
+const { allUsers, allFloor, allRoom, allPayment } = require("./option.service");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -19,7 +15,13 @@ router.get("/floor", async (req, res) => {
 router.get("/rooms/:cat/:flo", async (req, res) => {
   const categ = req.params.cat;
   const flor = req.params.flo;
-  const users = await allRoom(parseInt(categ),parseInt(flor));
+  const users = await allRoom(parseInt(categ), parseInt(flor));
+
+  res.send(users);
+});
+
+router.get("/status-payment", async (req, res) => {
+  const users = await allPayment();
 
   res.send(users);
 });
