@@ -1,6 +1,13 @@
 const express = require("express");
 
-const { findAllUser, insertRoom, checkRoom, deleteRoom, findRoom, updateRoom } = require("./room.repository");
+const {
+  findAllUser,
+  insertRoom,
+  checkRoom,
+  deleteRoom,
+  findRoom,
+  updateRoom,
+} = require("./room.repository");
 
 const allUsers = async () => {
   const users = await findAllUser();
@@ -20,6 +27,7 @@ const createRoom = async (newData) => {
   if (check) {
     throw Error("Room already exists");
   }
+
   const room = await insertRoom(newData);
 
   return room;
