@@ -27,7 +27,7 @@ const createUser = async (newData) => {
     const custInsert = await insertCustomer(newData);
     var cust = custInsert.idCustomer;
   }
-  const room = await updateStatusRoom(newData.roomId);
+  const room = await updateStatusRoom(parseInt(newData.roomId));
   const user = await insertUser(newData, cust);
   const htmlToSend = `<!DOCTYPE html>
   <html>

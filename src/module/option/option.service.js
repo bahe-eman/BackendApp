@@ -6,6 +6,7 @@ const {
   findAllRoomByFlor,
   findAllRoomByPar,
   findAllPaymentStatus,
+  findAllCatByCat,
 } = require("./option.repository");
 
 const allUsers = async () => {
@@ -36,9 +37,20 @@ const allPayment = async () => {
   return users;
 };
 
+const allCatByCat = async (categ) => {
+  let users = [];
+  if (categ == 0) {
+    users = await findAllUser();
+  } else {
+    users = await findAllCatByCat(categ);
+  }
+  return users;
+};
+
 module.exports = {
   allUsers,
   allFloor,
   allRoom,
   allPayment,
+  allCatByCat,
 };

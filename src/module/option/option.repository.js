@@ -26,6 +26,9 @@ const findAllRoom = async () => {
       nameRoom: true,
       numberRoom: true,
     },
+    where: {
+      statusId: 6,
+    },
   });
   return users;
 };
@@ -38,6 +41,7 @@ const findAllRoomByCat = async (categ) => {
     },
     where: {
       categoryId: categ,
+      statusId: 6,
     },
   });
   return users;
@@ -51,6 +55,7 @@ const findAllRoomByFlor = async (flor) => {
     },
     where: {
       floorId: flor,
+      statusId: 6,
     },
   });
   return users;
@@ -65,6 +70,7 @@ const findAllRoomByPar = async (categ, flor) => {
     where: {
       categoryId: categ,
       floorId: flor,
+      statusId: 6,
     },
   });
   return users;
@@ -80,6 +86,20 @@ const findAllPaymentStatus = async () => {
   return users;
 };
 
+const findAllCatByCat = async (categ) => {
+  const users = await prisma.category.findMany({
+    select: {
+      idCategory: true,
+      nameCategory: true,
+      price: true,
+    },
+    where: {
+      idCategory: categ,
+    },
+  });
+  return users;
+};
+
 module.exports = {
   findAllUser,
   findAllFloor,
@@ -88,4 +108,5 @@ module.exports = {
   findAllRoomByFlor,
   findAllRoomByPar,
   findAllPaymentStatus,
+  findAllCatByCat,
 };

@@ -43,6 +43,6 @@ app.get("/api", (req, res) => {
 });
 app.use("/", router);
 
-// app.listen(PORT, () => {
-//   console.log("Express API running in Port: " + PORT);
-// });
+app.listen(PORT, () => {
+  console.log("Express API running in Port: " + PORT);
+});
