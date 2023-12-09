@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
       expiresIn: "24h",
     });
 
-    console.log(token);
+    // console.log(token);
 
     return res.status(200).send({
       message: "login success",
