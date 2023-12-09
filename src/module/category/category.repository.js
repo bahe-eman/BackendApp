@@ -1,13 +1,5 @@
 const { prisma } = require("../../db/index");
 const { unlinkSync } = require("fs");
-const fs = require("fs");
-
-const categoryImagesDir = "assets/category-images";
-
-// Check if the directory exists, and create it if not
-if (!fs.existsSync(categoryImagesDir)) {
-  fs.mkdirSync(categoryImagesDir, { recursive: true });
-}
 
 const addCategory = async (req, res) => {
   try {
