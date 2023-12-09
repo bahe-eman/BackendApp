@@ -1,6 +1,7 @@
 const express = require("express");
 const { verifyJWT } = require("../../middlewares/verifyJWT");
 const { multer, prisma } = require("../../db/index");
+const { mkdir } = require("fs");
 const {
   addCategory,
   allCategory,
@@ -10,9 +11,12 @@ const {
   categoryUpdate,
 } = require("./category.repository");
 
+// mkdir("assets/category-images", { recursive: true }, (err) => {
+//   if (err) throw err;
+// });
+
 const images = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Assuming "assets/category-images" directory already exists in your project
     cb(null, "assets/category-images");
   },
   filename: (req, file, cb) => {

@@ -1,8 +1,6 @@
 const { prisma } = require("../../db/index");
 const { unlinkSync } = require("fs");
 
-const categoryImagesDir = "assets/category-images";
-
 const addCategory = async (req, res) => {
   try {
     const { nameCategory, descCategory, facilityCategory, price } = req.body;
