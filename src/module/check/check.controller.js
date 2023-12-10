@@ -120,6 +120,7 @@ router.get("/out/:id", async (req, res) => {
         day: true,
         totalPayment: true,
         people: true,
+        roomId: true,
         room: {
           select: {
             numberRoom: true,
@@ -129,6 +130,7 @@ router.get("/out/:id", async (req, res) => {
         },
         customer: {
           select: {
+            idCustomer: true,
             nikCustomer: true,
             nameCustomer: true,
             tlpnCustomer: true,
