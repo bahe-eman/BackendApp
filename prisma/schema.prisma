@@ -10,8 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Level {
-  idLevel   Int    @id @default(autoincrement())
+model Role {
+  idRole    Int    @id @default(autoincrement())
   nameLevel String
   message   String
   user      User[]
@@ -33,8 +33,8 @@ model User {
   passwordUser String
   tlpUser      String
   addressUser  String
-  userLevel    Level  @relation(fields: [levelUser], references: [idLevel])
-  levelUser    Int
+  userRole    Role   @relation(fields: [roleUser], references: [idRole])
+  roleUser     Int
   userStatus   Status @relation(fields: [statusUser], references: [idStatus])
   statusUser   Int
   fotoUser     String

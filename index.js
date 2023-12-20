@@ -3,13 +3,15 @@ require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const router = require("./src/routes/router");
+const { prisma } = require("./src/db");
+const bcrypt = require("bcrypt");
 const path = require("path");
 const PORT = process.env.PORT;
 app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  }),
+  })
 );
 const multer = require("multer");
 const fileStorage = multer.diskStorage({
@@ -31,17 +33,78 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-// app.use(
-//   multer({ storage: fileStorage, fileFilter: fileFilter }).single("fotoUser")
-// );
+
 app.use("/bookingAssets", express.static(__dirname + "/asset/"));
 app.use("/assets/category-images", express.static("assets/category-images"));
 app.use("/assets/admin", express.static("assets/admin"));
 app.use("/uploads", express.static("uploads"));
-app.get("/api", (req, res) => {
-  res.send("Hello");
-});
+
 app.use("/", router);
+
+const starting = async () => {
+  const checkingSuper = await prisma.role.findMany({
+    where: { nameLevel: "superadmin" },
+  });
+  if (checkingSuper.length == 0) {
+    await prisma.role.create({
+      data: {
+        nameLevel: "superadmin",
+        message: "superadmin",
+      },
+    });
+  }
+  const checkingAdmin = await prisma.role.findMany({
+    where: { nameLevel: "admin" },
+  });
+  if (checkingAdmin.length == 0) {
+    await prisma.role.create({
+      data: {
+        nameLevel: "admin",
+        message: "admin",
+      },
+    });
+  }
+
+  const staff = await prisma.status.findMany({
+    where: { nameStatus: "staff" },
+  });
+  if (staff.length == 0) {
+    await prisma.status.create({
+      data: {
+        nameStatus: "staff",
+      },
+    });
+  }
+  const customer = await prisma.status.findMany({
+    where: { nameStatus: "customer" },
+  });
+  if (customer.length == 0) {
+    await prisma.status.create({
+      data: {
+        nameStatus: "customer",
+      },
+    });
+  }
+
+  const superAdmin = await prisma.user.findMany({
+    where: { nameUser: "superadmin" },
+  });
+  if (superAdmin.length == 0) {
+    await prisma.user.create({
+      data: {
+        nameUser: "superadmin",
+        emailUser: "superadmin@gmail.com",
+        passwordUser: bcrypt.hashSync("superadmin@12345", 8),
+        tlpUser: "022-23454",
+        addressUser: "Indonesia",
+        roleUser: 1,
+        statusUser: 1,
+        fotoUser: "",
+      },
+    });
+  }
+};
+starting();
 
 app.listen(PORT, () => {
   console.log("Express API running in Port: " + PORT);
