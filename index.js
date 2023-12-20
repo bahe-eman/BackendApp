@@ -65,23 +65,23 @@ const starting = async () => {
     });
   }
 
-  const staff = await prisma.status.findMany({
-    where: { nameStatus: "staff" },
+  const active = await prisma.status.findMany({
+    where: { nameStatus: "active" },
   });
-  if (staff.length == 0) {
+  if (active.length == 0) {
     await prisma.status.create({
       data: {
-        nameStatus: "staff",
+        nameStatus: "active",
       },
     });
   }
-  const customer = await prisma.status.findMany({
-    where: { nameStatus: "customer" },
+  const nonActive = await prisma.status.findMany({
+    where: { nameStatus: "non active" },
   });
-  if (customer.length == 0) {
+  if (nonActive.length == 0) {
     await prisma.status.create({
       data: {
-        nameStatus: "customer",
+        nameStatus: "non active",
       },
     });
   }
@@ -94,7 +94,7 @@ const starting = async () => {
       data: {
         nameUser: "superadmin",
         emailUser: "superadmin@gmail.com",
-        passwordUser: bcrypt.hashSync("superadmin@12345", 8),
+        passwordUser: bcrypt.hashSync("Superadmin@12345", 8),
         tlpUser: "022-23454",
         addressUser: "Indonesia",
         roleUser: 1,
