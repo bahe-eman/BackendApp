@@ -46,9 +46,10 @@ const updateStatusRoom = async (newData) => {
   const user = await prisma.room.update({
     data: {
       statusId: 7,
-    },where: {
-      idRoom:newData
-    }
+    },
+    where: {
+      idRoom: newData,
+    },
   });
   return user;
 };
@@ -56,6 +57,5 @@ module.exports = {
   checkUser,
   insertUser,
   insertCustomer,
-  updateStatusRoom
+  updateStatusRoom,
 };
-
