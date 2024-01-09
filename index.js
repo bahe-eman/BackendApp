@@ -86,6 +86,24 @@ const starting = async () => {
     });
   }
 
+  const admin = await prisma.user.findMany({
+    where: { nameUser: "admin" },
+  });
+  if (admin.length == 0) {
+    await prisma.user.create({
+      data: {
+        nameUser: "admin",
+        emailUser: "admin@gmail.com",
+        passwordUser: bcrypt.hashSync("Admin@12345", 8),
+        tlpUser: "022-23454",
+        addressUser: "Indonesia",
+        roleUser: 2,
+        statusUser: 1,
+        fotoUser: "",
+      },
+    });
+  }
+
   const superAdmin = await prisma.user.findMany({
     where: { nameUser: "superadmin" },
   });

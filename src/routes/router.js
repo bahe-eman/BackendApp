@@ -13,6 +13,7 @@ const { verifyJWT } = require("../middlewares/verifyJWT");
 const customerController = require("../module/customer/customer.controller");
 const optionController = require("../module/option/option.controller");
 const dashboard = require("../module/dashboard/dash.controller");
+const session = require("../module/session");
 
 router.use("/login", ValidateLogin, loginController);
 router.use("/users", verifyJWT, userController);
@@ -25,5 +26,6 @@ router.use("/customer", verifyJWT, customerController);
 router.use("/check", verifyJWT, checkController);
 router.use("/option", optionController);
 router.use("/dashboard", dashboard);
+router.use("/session", session);
 
 module.exports = router;

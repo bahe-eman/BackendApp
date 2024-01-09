@@ -108,3 +108,11 @@ model Payment {
   paymentStatus String
   transaction   Transaction[]
 }
+
+model Session {
+  id Int  @id @unique
+  createdAt DateTime @default(now())
+  name String
+  role Int
+  jwt String
+}
