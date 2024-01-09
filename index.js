@@ -87,7 +87,7 @@ const starting = async () => {
   }
 
   const admin = await prisma.user.findMany({
-    where: { nameUser: "admin" },
+    where: { emailUser: "admin@gmail.com" },
   });
   if (admin.length == 0) {
     await prisma.user.create({
@@ -105,14 +105,14 @@ const starting = async () => {
   }
 
   const superAdmin = await prisma.user.findMany({
-    where: { nameUser: "superadmin" },
+    where: { emailUser: "super@gmail.com" },
   });
   if (superAdmin.length == 0) {
     await prisma.user.create({
       data: {
-        nameUser: "superadmin",
-        emailUser: "superadmin@gmail.com",
-        passwordUser: bcrypt.hashSync("Superadmin@12345", 8),
+        nameUser: "super",
+        emailUser: "super@gmail.com",
+        passwordUser: bcrypt.hashSync("Super@12345", 8),
         tlpUser: "022-23454",
         addressUser: "Indonesia",
         roleUser: 1,

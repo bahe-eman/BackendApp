@@ -5,9 +5,10 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { name, role, jwt } = req.body;
+    const { id, name, role, jwt } = req.body;
     await prisma.session.create({
       data: {
+        id: id,
         name: name,
         role: role,
         jwt: jwt,
@@ -23,13 +24,15 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const data = await prisma.session.findMany({
+    // const id = req.headers["authorization"];
+    const data = await prisma.session.findUnique({
       where: {
-        name: "admin",
+        id: req.headers["authorization"],
       },
     });
-    console.log(data);
-    return res.status(200).send("okay");
+    return res.status(200).send({
+      data: data,
+    });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

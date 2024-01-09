@@ -9,7 +9,7 @@ router.post("/", async (req, res) => {
     delete userData.passwordUser;
 
     const token = JWT.sign({ id: userData.idUser }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
+      expiresIn: 300,
     });
 
     return res.status(200).send({

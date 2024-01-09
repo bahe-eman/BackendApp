@@ -110,7 +110,7 @@ model Payment {
 }
 
 model Session {
-  id Int  @id @unique
+  id String  @id @unique
   createdAt DateTime @default(now())
   name String
   role Int
