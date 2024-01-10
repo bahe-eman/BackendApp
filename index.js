@@ -86,6 +86,27 @@ const starting = async () => {
     });
   }
 
+  const empty = await prisma.status.findMany({
+    where: { nameStatus: "empty" },
+  });
+  if (empty.length == 0) {
+    await prisma.status.create({
+      data: {
+        nameStatus: "empty",
+      },
+    });
+  }
+  const booked = await prisma.status.findMany({
+    where: { nameStatus: "booked" },
+  });
+  if (booked.length == 0) {
+    await prisma.status.create({
+      data: {
+        nameStatus: "booked",
+      },
+    });
+  }
+
   const admin = await prisma.user.findMany({
     where: { emailUser: "admin@gmail.com" },
   });

@@ -37,7 +37,6 @@ const checkRoom = async (newData) => {
 };
 
 const insertRoom = async (newData) => {
-  console.log(newData);
   const room = await prisma.room.create({
     data: {
       categoryId: parseInt(newData.categoryId),

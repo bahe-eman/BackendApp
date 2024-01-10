@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
     const newData = req.body;
 
     const room = await createRoom(newData);
+    console.log(room);
 
     res.send({
       data: room,
@@ -33,6 +34,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const roomId = req.params.id;
+  console.log(roomById);
   const newData = req.body;
   if (
     !(

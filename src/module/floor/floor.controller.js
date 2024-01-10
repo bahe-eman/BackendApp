@@ -22,6 +22,16 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { nameFloor } = req.body;
+    const checking = await prisma.floor.findMany({
+      where: {
+        nameFloor: nameFloor,
+      },
+    });
+    if (checking.length == 1) {
+      return res.status(401).send({
+        error: "floor sudah ada",
+      });
+    }
     await prisma.floor.create({
       data: {
         nameFloor: nameFloor,
@@ -41,7 +51,7 @@ router.delete("/:id", async (req, res) => {
     await prisma.floor.delete({
       where: { idFloor: id },
     });
-    return res.status(200).send({ message: "deleted...." });
+    return res.status(200).send({ succes: "deleted...." });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
